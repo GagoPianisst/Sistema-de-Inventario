@@ -1,13 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.1
--- http://www.phpmyadmin.net
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 16-06-2017 a las 07:12:59
--- Versión del servidor: 10.1.19-MariaDB
--- Versión de PHP: 7.0.13
-
+-- Tiempo de generación: 29-07-2024 a las 22:38:34
+-- Versión del servidor: 10.4.32-MariaDB
+-- Versión de PHP: 8.2.12
+--bd 2.0
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -29,7 +30,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `categories` (
   `id` int(11) UNSIGNED NOT NULL,
   `name` varchar(60) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Volcado de datos para la tabla `categories`
@@ -48,7 +49,7 @@ CREATE TABLE `media` (
   `id` int(11) UNSIGNED NOT NULL,
   `file_name` varchar(255) NOT NULL,
   `file_type` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Volcado de datos para la tabla `media`
@@ -70,16 +71,18 @@ CREATE TABLE `products` (
   `buy_price` decimal(25,2) DEFAULT NULL,
   `sale_price` decimal(25,2) NOT NULL,
   `categorie_id` int(11) UNSIGNED NOT NULL,
-  `media_id` int(11) DEFAULT '0',
+  `media_id` int(11) DEFAULT 0,
   `date` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Volcado de datos para la tabla `products`
 --
 
 INSERT INTO `products` (`id`, `name`, `quantity`, `buy_price`, `sale_price`, `categorie_id`, `media_id`, `date`) VALUES
-(1, 'Filtro de gasolina', '100', '5.00', '10.00', 1, 1, '2017-06-16 07:03:16');
+(1, 'Filtro de gasolina', '99', 5.00, 10.00, 1, 1, '2017-06-16 07:03:16'),
+(2, 'medicina jeje', '4', 500.00, 550.00, 1, 0, '2024-07-26 00:30:26'),
+(3, 'pucha', '1', 12020020.00, 6.00, 1, 1, '2024-07-26 23:16:30');
 
 -- --------------------------------------------------------
 
@@ -93,7 +96,15 @@ CREATE TABLE `sales` (
   `qty` int(11) NOT NULL,
   `price` decimal(25,2) NOT NULL,
   `date` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Volcado de datos para la tabla `sales`
+--
+
+INSERT INTO `sales` (`id`, `product_id`, `qty`, `price`, `date`) VALUES
+(1, 2, 1, 550.00, '2024-07-26'),
+(2, 1, 1, 10.00, '2024-07-26');
 
 -- --------------------------------------------------------
 
@@ -110,16 +121,18 @@ CREATE TABLE `users` (
   `image` varchar(255) DEFAULT 'no_image.jpg',
   `status` int(1) NOT NULL,
   `last_login` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Volcado de datos para la tabla `users`
 --
 
 INSERT INTO `users` (`id`, `name`, `username`, `password`, `user_level`, `image`, `status`, `last_login`) VALUES
-(1, 'Admin Users', 'admin', 'd033e22ae348aeb5660fc2140aec35850c4da997', 1, 'pzg9wa7o1.jpg', 1, '2017-06-16 07:11:11'),
+(1, 'Admin Users', 'admin', 'd033e22ae348aeb5660fc2140aec35850c4da997', 1, 'iauyx63s1.png', 1, '2024-07-29 22:31:07'),
 (2, 'Special User', 'special', 'ba36b97a41e7faf742ab09bf88405ac04f99599a', 2, 'no_image.jpg', 1, '2017-06-16 07:11:26'),
-(3, 'Default User', 'user', '12dea96fec20593566ab75692c9949596833adc9', 3, 'no_image.jpg', 1, '2017-06-16 07:11:03');
+(3, 'Default User', 'user', '12dea96fec20593566ab75692c9949596833adc9', 3, 'no_image.jpg', 1, '2017-06-16 07:11:03'),
+(10, 'Alejandro', 'Alesick', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', 3, 'no_image.jpg', 1, '2024-07-26 01:05:35'),
+(11, 'brian ', 'brian', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', 2, 'no_image.jpg', 1, '2024-07-26 01:06:51');
 
 -- --------------------------------------------------------
 
@@ -132,7 +145,7 @@ CREATE TABLE `user_groups` (
   `group_name` varchar(150) NOT NULL,
   `group_level` int(11) NOT NULL,
   `group_status` int(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Volcado de datos para la tabla `user_groups`
@@ -201,31 +214,37 @@ ALTER TABLE `user_groups`
 --
 ALTER TABLE `categories`
   MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
 --
 -- AUTO_INCREMENT de la tabla `media`
 --
 ALTER TABLE `media`
   MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
 --
 -- AUTO_INCREMENT de la tabla `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
 --
 -- AUTO_INCREMENT de la tabla `sales`
 --
 ALTER TABLE `sales`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
 --
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
 --
 -- AUTO_INCREMENT de la tabla `user_groups`
 --
 ALTER TABLE `user_groups`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
 --
 -- Restricciones para tablas volcadas
 --
@@ -247,6 +266,7 @@ ALTER TABLE `sales`
 --
 ALTER TABLE `users`
   ADD CONSTRAINT `FK_user` FOREIGN KEY (`user_level`) REFERENCES `user_groups` (`group_level`) ON DELETE CASCADE ON UPDATE CASCADE;
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
